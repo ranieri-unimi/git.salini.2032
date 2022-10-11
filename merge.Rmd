@@ -1,0 +1,129 @@
+```{r}
+library(tidymodels)
+```
+
+# pokemon unite
+
+just chill
+
+## data ingestion
+
+raw data are stored by pokemon level, let's merge them
+
+```{r}
+df = data.frame()
+for(i in 13:15){
+  uri = sprintf("datasets/pokemon.unite/%s.csv", i)
+  dfi = read.csv(uri)
+  dfi$level = i
+  df = rbind(df, dfi)
+}
+```
+
+let's normalize features a bit
+
+```{r}
+library(scales)
+```
+
+```{r}
+for(i in 2:(length(df)-1)){
+  # df[i] = scale(df[i])[,1]
+  # df[i] = scales::rescale(df[i], to=c(0,1))[,1]
+  df[i] = ((df[i] - min(df[i])) /(max(df[i])-min(df[i])))
+}
+```
+
+```{r}
+df_rn = paste(toupper(substr(df$name, 1, 3)), df$level, sep="")
+```
+
+## dim red
+
+```{r}
+tmpview = na.omit(df[2:(length(df)-1)])
+res = princomp(tmpview, cor=T)
+summary(res)
+```
+
+```{r}
+res$loadings
+```
+
+```{r}
+screeplot(res)
+plot(res$scores, cex=0.0)
+text(res$scores, df_rn, cex=0.6)
+abline(h=0, v=0)
+```
+
+```{r}
+pr.var=res$sdev^2
+pve=pr.var/sum(pr.var)
+
+plot(cumsum(pve), xlab="Principal Component", ylab="Cumulative Proportion of Variance Explained", ylim=c(0,1),type='b')
+```
+
+## clust
+
+```{r}
+biplot(res, cex=0.5)
+abline(h=0, v=0)
+```
+
+```{r}
+wssplot <- function(data, nc=15, seed=1234){
+  wss = (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] <- sum(kmeans(data, centers=i)$withinss)}
+  plot(1:nc, wss, type="b", xlab="Number of Clusters",
+       ylab="Within groups sum of squares")}
+
+wssplot(df[2:length(df)], nc=12) 
+```
+
+## prediction
+
+```{r}
+dt = read.csv('datasets/pkmn.unite.csv')
+```
+
+### score distro
+
+```{r}
+cnt = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
+
+cnt[order(-cnt$x),]
+```
+
+```{r}
+shapiro.test(dt$score)
+```
+
+```{r}
+library(ggpubr)
+ggqqplot(dt$score)
+ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
+  stat_overlay_normal_density(color = "red", linetype = "dashed")
+```
+
+```{r}
+dwebble = dt[dt$pokemon == "Crustle",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
+glm.fit <- glm(win ~ level + score + damage_healed, data = dwebble, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+```{r}
+MrMime = dt[dt$pokemon == "MrMime",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
+glm.fit <- glm(win ~ level + score  + damage_healed, data = MrMime, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+```{r}
+
+library(leaps)
+regfit.fwd=regsubsets(win ~ level + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dt, method="forward")
+
+summary(regfit.fwd)
+```
