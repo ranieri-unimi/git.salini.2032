@@ -1,10 +1,4 @@
-```{r}
-library(tidymodels)
-```
-
 # pokemon unite
-
-just chill
 
 ## data ingestion
 
@@ -12,7 +6,7 @@ raw data are stored by pokemon level, let's merge them
 
 ```{r}
 df = data.frame()
-for(i in 13:15){
+for(i in 1:15){
   uri = sprintf("datasets/pokemon.unite/%s.csv", i)
   dfi = read.csv(uri)
   dfi$level = i
@@ -20,40 +14,46 @@ for(i in 13:15){
 }
 ```
 
-let's normalize features a bit
-
 ```{r}
 library(scales)
 ```
 
 ```{r}
-for(i in 2:(length(df)-1)){
-  # df[i] = scale(df[i])[,1]
-  # df[i] = scales::rescale(df[i], to=c(0,1))[,1]
-  df[i] = ((df[i] - min(df[i])) /(max(df[i])-min(df[i])))
-}
-```
+df_rn = paste(
+  toupper(substr(df$name, 1,4)),
+  df$level,
+  sep="")
 
-```{r}
-df_rn = paste(toupper(substr(df$name, 1, 3)), df$level, sep="")
+row.names(df) = df_rn
+
+df$name = NULL
 ```
 
 ## dim red
 
+let's normalize features a bit
+
 ```{r}
-tmpview = na.omit(df[2:(length(df)-1)])
-res = princomp(tmpview, cor=T)
+for(i in 1:length(df)){
+  df[i] = ((df[i] - min(df[i])) /(max(df[i])-min(df[i])))
+}
+
+df = df[df$level > (12/15),]
+```
+
+```{r}
+res = princomp(df, cor=T)
 summary(res)
 ```
 
 ```{r}
-res$loadings
+res$loading
 ```
 
 ```{r}
 screeplot(res)
 plot(res$scores, cex=0.0)
-text(res$scores, df_rn, cex=0.6)
+text(res$scores, rownames(df), cex=0.4)
 abline(h=0, v=0)
 ```
 
@@ -81,6 +81,37 @@ wssplot <- function(data, nc=15, seed=1234){
        ylab="Within groups sum of squares")}
 
 wssplot(df[2:length(df)], nc=12) 
+```
+
+```{r}
+library(cluster)
+clusplot(df, kmeans(df, centers=5)$cluster, 
+         main='2D representation of the Cluster solution',
+         color=TRUE, shade=TRUE,
+         labels=2, lines=0, cex=0.5)
+```
+
+```{r}
+clookup = data.frame()
+
+for(c in 1:length(df)){
+  clookup = rbind(clookup, c(c, row.names(df)[c], db$cluster[c]))
+}
+
+colnames(clookup) = c('id','name', 'cluster')
+```
+
+```{r}
+# Compute DBSCAN using fpc package
+library("fpc")
+
+db = fpc::dbscan(res$scores, eps = 1.9, MinPts = 3)
+
+# Plot DBSCAN results
+library("factoextra")
+fviz_cluster(db, data = res$scores, stand = FALSE,
+ellipse = TRUE, show.clust.cent = FALSE,
+geom = "point",palette = "jco", ggtheme = theme_classic())
 ```
 
 ## prediction
