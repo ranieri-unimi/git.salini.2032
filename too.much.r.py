@@ -50,6 +50,6 @@ for i, m in enumerate(table_list):
 
 
 # %%
-df.to_csv('datasets/pkmm.unite.csv', index=False)
+df.to_csv('datasets/pkmn.unite.csv', index=False)
 
 # %%
