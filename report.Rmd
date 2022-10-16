@@ -17,12 +17,15 @@ read_stats = function(){
     dfi$level = i
     df = rbind(df, dfi)
   }
+  return(df)
 }
 ```
 
 ```{r}
 df = read_stats()
 ```
+
+(for visualization purpose)
 
 ```{r}
 df_rn = paste(
@@ -47,7 +50,7 @@ df = df[df$level > (13/15),]
 df$level = NULL
 ```
 
-we cannot use k means over the original point cloud, beacus cause features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
+we cannot use k means over the original point cloud, because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
 
 k means has been applied to reduce dimensions
 
@@ -74,7 +77,7 @@ pve=pr.var/sum(pr.var)
 plot(cumsum(pve), xlab="Principal Component", ylab="Cumulative Proportion of Variance Explained", ylim=c(0,1),type='b')
 ```
 
-## clust
+## clustering
 
 ```{r}
 biplot(res, cex=0.5)
@@ -95,6 +98,7 @@ wssplot(df[2:length(df)], nc=12)
 
 ```{r}
 library(cluster)
+
 clusplot(df, kmeans(df, centers=6)$cluster, 
          main='2D representation of the Cluster solution',
          color=TRUE, shade=TRUE,
@@ -109,6 +113,7 @@ db = fpc::dbscan(res$scores, eps = 1.6, MinPts = 2)
 
 # Plot DBSCAN results
 library("factoextra")
+
 fviz_cluster(db, data = res$scores, stand = FALSE,
 ellipse = TRUE, show.clust.cent = FALSE,
 geom = "point",palette = "jco", ggtheme = theme_classic())
@@ -125,22 +130,33 @@ geom = "point",palette = "jco", ggtheme = theme_classic())
 ```
 
 ```{r}
-
+cl = read.csv("datasets/clusters.csv")
 ```
-
-## prediction
 
 ```{r}
 dt = read.csv('datasets/matches.csv')
 ```
 
-### score distro
+## scoring, winning
 
 ```{r}
 cnt = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
-
 cnt[order(-cnt$x),]
 ```
+
+```{r}
+Crustle = dt[dt$pokemon == "Crustle",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
+glm.fit <- glm(win ~ level + score + damage_healed, data = Crustle, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+```{r}
+MrMime = dt[dt$pokemon == "MrMime",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
+glm.fit <- glm(win ~ level + score  + damage_healed, data = MrMime, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+### Forward Selection as suggested behavior
 
 ```{r}
 shapiro.test(dt$score)
@@ -154,21 +170,23 @@ ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
 ```
 
 ```{r}
-dwebble = dt[dt$pokemon == "Crustle",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
-glm.fit <- glm(win ~ level + score + damage_healed, data = dwebble, family=binomial(link='logit'))
-summary(glm.fit)
-```
-
-```{r}
-MrMime = dt[dt$pokemon == "MrMime",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
-glm.fit <- glm(win ~ level + score  + damage_healed, data = MrMime, family=binomial(link='logit'))
-summary(glm.fit)
-```
-
-```{r}
-
 library(leaps)
-regfit.fwd=regsubsets(win ~ level + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dt, method="forward")
+who = "MrMime"
+
+regfit.fwd = regsubsets(win ~ level + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dt[dt$pokemon == who, ], method="forward")
 
 summary(regfit.fwd)
 ```
+
+```{r}
+cl[order(cl$pokemon),]
+
+```
+
+## dumming
+
+### teammate
+
+### overall
+
+### cluster
