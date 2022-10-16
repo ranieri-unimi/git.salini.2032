@@ -1,21 +1,27 @@
 # pokemon unite
 
+```{r}
+library(scales)
+```
+
 ## data ingestion
 
 raw data are stored by pokemon level, let's merge them
 
 ```{r}
-df = data.frame()
-for(i in 1:15){
-  uri = sprintf("datasets/pokemon.unite/%s.csv", i)
-  dfi = read.csv(uri)
-  dfi$level = i
-  df = rbind(df, dfi)
+read_stats = function(){
+  df = data.frame()
+  for(i in 1:15){
+    uri = sprintf("datasets/pokemon.unite/%s.csv", i)
+    dfi = read.csv(uri)
+    dfi$level = i
+    df = rbind(df, dfi)
+  }
 }
 ```
 
 ```{r}
-library(scales)
+df = read_stats()
 ```
 
 ```{r}
@@ -25,7 +31,6 @@ df_rn = paste(
   sep="")
 
 row.names(df) = df_rn
-
 df$name = NULL
 ```
 
@@ -38,8 +43,13 @@ for(i in 1:length(df)){
   df[i] = ((df[i] - min(df[i])) /(max(df[i])-min(df[i])))
 }
 
-df = df[df$level > (12/15),]
+df = df[df$level > (13/15),]
+df$level = NULL
 ```
+
+we cannot use k means over the original point cloud, beacus cause features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
+
+k means has been applied to reduce dimensions
 
 ```{r}
 res = princomp(df, cor=T)
@@ -53,7 +63,7 @@ res$loading
 ```{r}
 screeplot(res)
 plot(res$scores, cex=0.0)
-text(res$scores, rownames(df), cex=0.4)
+text(res$scores, rownames(df), cex=0.6)
 abline(h=0, v=0)
 ```
 
@@ -85,33 +95,37 @@ wssplot(df[2:length(df)], nc=12)
 
 ```{r}
 library(cluster)
-clusplot(df, kmeans(df, centers=5)$cluster, 
+clusplot(df, kmeans(df, centers=6)$cluster, 
          main='2D representation of the Cluster solution',
          color=TRUE, shade=TRUE,
          labels=2, lines=0, cex=0.5)
 ```
 
 ```{r}
-clookup = data.frame()
-
-for(c in 1:length(df)){
-  clookup = rbind(clookup, c(c, row.names(df)[c], db$cluster[c]))
-}
-
-colnames(clookup) = c('id','name', 'cluster')
-```
-
-```{r}
 # Compute DBSCAN using fpc package
 library("fpc")
 
-db = fpc::dbscan(res$scores, eps = 1.9, MinPts = 3)
+db = fpc::dbscan(res$scores, eps = 1.6, MinPts = 2)
 
 # Plot DBSCAN results
 library("factoextra")
 fviz_cluster(db, data = res$scores, stand = FALSE,
 ellipse = TRUE, show.clust.cent = FALSE,
 geom = "point",palette = "jco", ggtheme = theme_classic())
+```
+
+```{r}
+# clookup = data.frame()
+# 
+# for(c in 1:length(df)){
+#   clookup = rbind(clookup, c(c, row.names(df)[c], db$cluster[c]))
+# }
+# 
+# colnames(clookup) = c('id','name', 'cluster')
+```
+
+```{r}
+
 ```
 
 ## prediction
