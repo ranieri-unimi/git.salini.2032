@@ -12,7 +12,7 @@ raw data are stored by pokemon level, let's merge them
 read_stats = function(){
   df = data.frame()
   for(i in 1:15){
-    uri = sprintf("datasets/pokemon.unite/%s.csv", i)
+    uri = sprintf("datasets/stats/%s.csv", i)
     dfi = read.csv(uri)
     dfi$level = i
     df = rbind(df, dfi)
@@ -131,7 +131,7 @@ geom = "point",palette = "jco", ggtheme = theme_classic())
 ## prediction
 
 ```{r}
-dt = read.csv('datasets/pkmn.unite.csv')
+dt = read.csv('datasets/matches.csv')
 ```
 
 ### score distro

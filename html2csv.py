@@ -3,7 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # %%
-with open("datasets/pkunite.table.list.html", "rt", encoding="utf8") as f:
+with open("datasets/matches.table.list.html", "rt", encoding="utf8") as f:
     raw_df = f.read()
 
 # %%
@@ -50,6 +50,6 @@ for i, m in enumerate(table_list):
 
 
 # %%
-df.to_csv('datasets/pkmn.unite.csv', index=False)
+df.to_csv('datasets/matches.csv', index=False)
 
 # %%
