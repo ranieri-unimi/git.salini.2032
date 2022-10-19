@@ -4,10 +4,13 @@
 library(scales)
 ```
 
-## data ingestion
 
-raw data are stored by pokemon level, let's merge them
+Two datasests have been used.
 
+## pokemon features
+The first dataset carries features of each pokemon. Raw data are stored by pokemon level, let's merge them:
+
+### data ingestion
 ```{r}
 read_stats = function(){
   df = data.frame()
@@ -25,7 +28,7 @@ read_stats = function(){
 df = read_stats()
 ```
 
-(for visualization purpose)
+(names for visualization purpose)
 
 ```{r}
 df_rn = paste(
@@ -37,9 +40,11 @@ row.names(df) = df_rn
 df$name = NULL
 ```
 
-## dim red
+```{r}
+df$speed = NULL
+```
 
-let's normalize features a bit
+Each pokemon is described by 10 features. Let's normalize them:
 
 ```{r}
 for(i in 1:length(df)){
@@ -50,9 +55,8 @@ df = df[df$level > (13/15),]
 df$level = NULL
 ```
 
-we cannot use k means over the original point cloud, because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
-
-k means has been applied to reduce dimensions
+## dimensionality reduction
+pokemon features are a bit redundant, let's reduce dimensions with pca!
 
 ```{r}
 res = princomp(df, cor=T)
@@ -78,6 +82,9 @@ plot(cumsum(pve), xlab="Principal Component", ylab="Cumulative Proportion of Var
 ```
 
 ## clustering
+Instead of embedding each pokemon with its coordinates on the space of the tw pricipal components, k means has been applied to discover groups od interchangeable Pokemon.
+
+We cannot use k means over the original point cloud, because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
 
 ```{r}
 biplot(res, cex=0.5)
@@ -105,6 +112,8 @@ clusplot(df, kmeans(df, centers=6)$cluster,
          labels=2, lines=0, cex=0.5)
 ```
 
+hack: a better clustering has been found using DB SCAN
+
 ```{r}
 # Compute DBSCAN using fpc package
 library("fpc")
@@ -130,33 +139,20 @@ geom = "point",palette = "jco", ggtheme = theme_classic())
 ```
 
 ```{r}
-cl = read.csv("datasets/clusters.csv")
+clust_map = read.csv("datasets/clusters.csv")
 ```
 
 ```{r}
 dt = read.csv('datasets/matches.csv')
 ```
 
-## scoring, winning
+## match results
+
 
 ```{r}
-cnt = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
-cnt[order(-cnt$x),]
+pkmn_count = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
+pkmn_count[order(-pkmn_count$x),]
 ```
-
-```{r}
-Crustle = dt[dt$pokemon == "Crustle",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
-glm.fit <- glm(win ~ level + score + damage_healed, data = Crustle, family=binomial(link='logit'))
-summary(glm.fit)
-```
-
-```{r}
-MrMime = dt[dt$pokemon == "MrMime",c('level', 'score', 'interrupt','damage_done','damage_healed', 'win')]
-glm.fit <- glm(win ~ level + score  + damage_healed, data = MrMime, family=binomial(link='logit'))
-summary(glm.fit)
-```
-
-### Forward Selection as suggested behavior
 
 ```{r}
 shapiro.test(dt$score)
@@ -169,23 +165,157 @@ ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
   stat_overlay_normal_density(color = "red", linetype = "dashed")
 ```
 
+### Forward Selection as suggested behavior
+
+Let's see regression for two different pokemons 
+
 ```{r}
 library(leaps)
-who = "MrMime"
+cols = c('level', 'score', 'kill', 'assist', 'interrupt', 'damage_done', 'damage_taken', 'damage_healed')
+```
 
-regfit.fwd = regsubsets(win ~ level + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dt[dt$pokemon == who, ], method="forward")
+#### Crustle
+
+```{r}
+who = "Crustle"
+
+dtw = dt[dt$pokemon == who, ]
+dtw[,cols] = log(dtw[,cols]+1)
+
+regfit.fwd = regsubsets(win ~ level + score + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dtw, method="forward")
 
 summary(regfit.fwd)
 ```
 
 ```{r}
-cl[order(cl$pokemon),]
+glm.fit <- glm(win ~ assist + level , data = dtw, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+#### Pikachu
+
+```{r}
+who = "Pikachu"
+
+dtw = dt[dt$pokemon == who, ]
+dtw[,cols] = log(dtw[,cols]+1)
+
+regfit.fwd = regsubsets(win ~ level + score + kill + assist + interrupt + damage_done + damage_taken + damage_healed, data=dtw, method="forward")
+
+summary(regfit.fwd)
+```
+
+```{r}
+glm.fit <- glm(win ~ damage_taken + score , data = dtw, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+
+```{r}
+dt %>%
+  mutate(counts = n()) %>%
+  group_by(pokemon=pokemon, add = T) %>%
+  summarise(
+    id_match = first(id_match),
+    win = first(win),
+    score = first(score),
+    level = first(level),
+    kill = first(kill),
+    assist = first(assist),
+    interrupt = first(interrupt),
+    damage_done = first(damage_done),
+    damage_taken = first(damage_taken),
+    damage_healed = first(damage_healed),
+    counts = first(counts),
+    yes = 1
+    )  %>%
+  spread(pokemon, yes, fill = 0) %>%
+  arrange(win)%>%
+  arrange(id_match) %>%
+  
+  # group_by(id_match, win) %>%
+  summarise_at(vars(-group_cols(), ...),
+  
+  # summarise(
+  #   score = sum(score),
+  #   level = mean(level),
+  #   kill = sum(kill),
+  #   assist = mean(assist),
+  #   interrupt = sum(interrupt),
+  #   damage_done = sum(damage_done),
+  #   damage_taken = sum(damage_taken),
+  #   damage_healed = sum(damage_healed),
+  #   
+  # )
+
 
 ```
 
+```{r}
+'ID Score Info
+  1     A    1
+  1     A    10
+  1     B    7
+  2     C    8
+  2     B    9
+  2     B    1
+  3     B    7
+  3     C    8
+  3     C    3
+  3     A    2'
+
+
+dat %>% 
+    group_by(ID) %>%
+    mutate(Count = n()) %>%
+    group_by(Score = paste0("Score_", Score), add = TRUE) %>%
+    summarise(Count = first(Count), n1 = 1)  %>%
+    spread(Score, n1, fill = 0)
+
+```
+
+```{r}
+
+library(tidyverse)
+
+dat <- read.table(textConnection('ID Score Info
+1     1     A    1
+2     1     A    10
+3     1     B    7
+4     2     C    8
+5     2     B    9
+6     2     B    1
+7     3     B    7
+8     3     C    8
+9     3     C    3
+10     3     A    2'))
+
+dat %>% 
+    group_by(ID) %>%
+    mutate(Count = n()) %>%
+    group_by(Score = paste0("Score_", Score), add = TRUE) %>%
+    summarise(Count = first(Count), n1 = 1)  %>%
+    spread(Score, n1, fill = 0)
+
+# A tibble: 3 x 5
+# Groups: ID [3]
+#     ID Count Score_A Score_B Score_C
+#* <int> <int>   <dbl>   <dbl>   <dbl>
+#1     1     3    1.00    1.00    0   
+#2     2     3    0       1.00    1.00
+#3     3     4    1.00    1.00    1.00
+```
+
+
+
 ## dumming
+```{r}
+library(dplyr)
+
+```
 
 ### teammate
+
 
 ### overall
 
