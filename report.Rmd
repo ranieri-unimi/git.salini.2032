@@ -1,4 +1,4 @@
-# pokemon unite
+# laddering unite
 
 ```{r}
 library(scales)
@@ -151,7 +151,7 @@ dt = read.csv('datasets/matches.csv')
 
 ```{r}
 pkmn_count = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
-pkmn_count[order(-pkmn_count$x),]
+pkmn_count[order(-pkmn_count$x),][1:7,]
 ```
 
 ```{r}
@@ -173,6 +173,13 @@ Let's see regression for two different pokemons
 library(leaps)
 cols = c('level', 'score', 'kill', 'assist', 'interrupt', 'damage_done', 'damage_taken', 'damage_healed')
 ```
+
+Why Y and Log X? Interpretation purpose:
+
+LINEAR: A 1% increase in X would lead to a β% increase/decrease in Y
+LOGIT: A k-factor increase in X would lead to a k**β increase in odds.
+
+https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression
 
 #### Crustle
 
@@ -211,112 +218,104 @@ summary(glm.fit)
 ```
 
 
-```{r}
-dt %>%
-  mutate(counts = n()) %>%
-  group_by(pokemon=pokemon, add = T) %>%
-  summarise(
-    id_match = first(id_match),
-    win = first(win),
-    score = first(score),
-    level = first(level),
-    kill = first(kill),
-    assist = first(assist),
-    interrupt = first(interrupt),
-    damage_done = first(damage_done),
-    damage_taken = first(damage_taken),
-    damage_healed = first(damage_healed),
-    counts = first(counts),
-    yes = 1
-    )  %>%
-  spread(pokemon, yes, fill = 0) %>%
-  arrange(win)%>%
-  arrange(id_match) %>%
-  
-  # group_by(id_match, win) %>%
-  summarise_at(vars(-group_cols(), ...),
-  
-  # summarise(
-  #   score = sum(score),
-  #   level = mean(level),
-  #   kill = sum(kill),
-  #   assist = mean(assist),
-  #   interrupt = sum(interrupt),
-  #   damage_done = sum(damage_done),
-  #   damage_taken = sum(damage_taken),
-  #   damage_healed = sum(damage_healed),
-  #   
-  # )
-
-
-```
-
-```{r}
-'ID Score Info
-  1     A    1
-  1     A    10
-  1     B    7
-  2     C    8
-  2     B    9
-  2     B    1
-  3     B    7
-  3     C    8
-  3     C    3
-  3     A    2'
-
-
-dat %>% 
-    group_by(ID) %>%
-    mutate(Count = n()) %>%
-    group_by(Score = paste0("Score_", Score), add = TRUE) %>%
-    summarise(Count = first(Count), n1 = 1)  %>%
-    spread(Score, n1, fill = 0)
-
-```
-
-```{r}
-
-library(tidyverse)
-
-dat <- read.table(textConnection('ID Score Info
-1     1     A    1
-2     1     A    10
-3     1     B    7
-4     2     C    8
-5     2     B    9
-6     2     B    1
-7     3     B    7
-8     3     C    8
-9     3     C    3
-10     3     A    2'))
-
-dat %>% 
-    group_by(ID) %>%
-    mutate(Count = n()) %>%
-    group_by(Score = paste0("Score_", Score), add = TRUE) %>%
-    summarise(Count = first(Count), n1 = 1)  %>%
-    spread(Score, n1, fill = 0)
-
-# A tibble: 3 x 5
-# Groups: ID [3]
-#     ID Count Score_A Score_B Score_C
-#* <int> <int>   <dbl>   <dbl>   <dbl>
-#1     1     3    1.00    1.00    0   
-#2     2     3    0       1.00    1.00
-#3     3     4    1.00    1.00    1.00
-```
-
-
-
 ## dumming
 ```{r}
-library(dplyr)
+dp = read.csv("datasets/pivot.group.matches.csv")
+```
 
+let's move out of linearity:
+
+```{r}
+# for( c in names(dp)[55:60]){
+#   dp[paste0(c,'_2')] = as.integer(dp[c] > 1)
+#   dp[c] = as.integer(dp[c] == 1)
+# }
+
+for( c in names(dp)[55:60]){
+  dp[paste0(c,'_2')] = (dp[c]^2)[1]
+}
 ```
 
 ### teammate
+```{r}
+names(dp)[55:60]
+```
+
+```{r}
+regfit.fwd = regsubsets(win ~ support + versatile + atk_ranged + sp_atk + speedster + defence
+               + support_2 + versatile_2 + atk_ranged_2 + sp_atk_2 + speedster_2 + defence_2
+               , data=dp, method="exhaustive")
+
+summary(regfit.fwd)
+```
 
 
-### overall
+```{r}
+glm.fit <- glm(win ~ support + versatile + atk_ranged + sp_atk + speedster + defence
+               + support_2 + versatile_2 + atk_ranged_2 + sp_atk_2 + speedster_2 + defence_2
+               , data = dp, family=binomial(link='logit'))
+summary(glm.fit)
+```
 
-### cluster
+#### single pokemon
+
+
+```{r}
+glm.fit <- glm(win ~ Absol + Aegislash + Azumarill + Blastoise + Blissey + Buzzwole + Charizard + Cinderace + Cramorant + Crustle + Decidueye + Delphox + Dodrio + Dragonite + Duraludon + Eldegoss + Espeon + Garchomp + Gardevoir + Gengar + Glaceon + Greedent + Greninja + Hoopa + Lucario + Machamp + Mamoswine + Mew + MrMime + Ninetales + Pikachu + Scizor + Scyther + Slowbro + Snorlax + Sylveon + Talonflame + Trevenant + Tsareena + Tyranitar + Venusaur + Wigglytuff + Zeraora
+               , data = dp, family=binomial(link='logit'))
+summary(glm.fit)
+
+```
+
+## TREE - alberelli belli belli
+```{r}
+dp_group = dp[55:60]
+dp_group$win = dp$win
+```
+
+
+```{r}
+library(tree)
+tree <- tree(win ~ ., data = dp_group)
+summary(tree)
+plot(tree)
+text(tree, pretty = 0)
+```
+
+```{r}
+yhat <- predict(tree, newdata = dp_group)
+plot(yhat, dp_group$win)
+abline(0, 1)
+mean((yhat - dp_group$win)^2)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library("rpart")
+library("rpart.plot")
+tree1 <- rpart(win ~ ., data = dp_group, control = rpart.control(cp = 0, minsplit = 10, maxsurrogate = 10))
+printcp(tree1)
+rpart.plot(tree1)
+```
+
+```{r}
+yhat <- predict(tree1, newdata = dp_group)
+plot(yhat, dp_group$win)
+abline(0, 1)
+mean((yhat - dp_group$win)^2)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+library("partykit")
+library("party")
+tree2 <- ctree(win ~ ., data = dp_group, controls = ctree_control(testtype = "Teststatistic", maxsurrogate = 1, mincriterion = 0.5, minsplit = 1))
+plot(tree2, cgp = gpar(fontsize = 2))
+```
+
+
+```{r}
+yhat <- predict(tree2, newdata = dp_group)
+plot(yhat, dp_group$win)
+abline(0, 1)
+mean((yhat - dp_group$win)^2)
+```
