@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Laddering Unite
 
 ```{r}
@@ -75,7 +80,7 @@ df = df[df$level > (13/15),]
 df$level = NULL
 ```
 
-### Dimensionality Reduction
+#### Dimensionality Reduction
 
 The features of Pokémons are a bit redundant, let's reduce dimensions with PCA:
 
@@ -107,8 +112,8 @@ res$loading[,1:2]
 It seems that the first component measure the adverseness to be a core Special Attacker: very low `sp_attack` and `cooldown_reduc`.
 The second component seems to measure the defensiveness: low `attack`, `crit_rate` and `life_stea`l, against high `defense`, `sp_defence` and `hp`.
 
-### Clustering
-
+#### Clustering
+However also the number of possible playable Pokemon is quite high.
 K means is applied to delineate groups of interchangeable Pokémon.
 K means cannot be applied over the original point cloud because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
 
@@ -199,15 +204,13 @@ shapiro.test(dt$score)
 ```{r}
 library(ggpubr)
 ggqqplot(dt$score)
-ggdensity(dt, x = "dt$score", fill = "lightgray", title = "score") +
+ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
   stat_overlay_normal_density(color = "red", linetype = "dashed")
 ```
 
 The score archived by each single player is not a reliable dependent variable, it's weirdly bi-modal due to game mechanics, and somewhat poissionian. Instead, the pretty binary win-lose outcome will be considered.
 
-## Models
-
-### Forward Selection and Logistic Regression
+## Optimize Gameplay - Forward Selection and Logistic Regression
 
 Let's see regression for two different Pokémons. Forward Selection is implemented to point which match stats are more relevant for each Pokémon.
 
@@ -224,7 +227,7 @@ cols = c('level', 'score', 'kill', 'assist', 'interrupt', 'damage_done', 'damage
 >
 > [*https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression*](https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression){.uri}
 
-#### Crustle
+### Crustle
 
 ```{r}
 who = "Crustle"
@@ -244,7 +247,7 @@ summary(glm.fit)
 
 Crustle, in order to raise its win odds, have, first of all, to keep its level high and secondly to assist its teammates during fights.
 
-#### Pikachu
+### Pikachu
 
 ```{r}
 who = "Pikachu"
@@ -273,8 +276,9 @@ dp = read.csv("datasets/pivot.group.matches.csv")
 ```
 
 Match results have been pivoted, the metrics that have been kept for each team are:
-- The average performance achieved
-- The count of Pokemon that were played for each role-cluster
+
+-   The average performance achieved
+-   The count of Pokemon that were played for each role-cluster
 
 Let's move a bit out of linearity:
 
@@ -289,7 +293,7 @@ for( c in names(dp)[55:60]){
 }
 ```
 
-### A Balanced Team - Logistic regression
+### A Balanced Team - Logistic Regression
 
 To model how team roles should be balanced a logistic regression is carried out over team compositions, using the role-groups delineated in the previous clustering. For visualization purpose, label names have been assigned manually:
 
@@ -391,5 +395,6 @@ plot(yhat, new_data$win)
 abline(0, 1)
 mean((yhat - new_data$win)^2)
 ```
-#### Tree - Consideration
+
+#### Consideration
 The best tree (#2) archive a MSE of 0.30, and not by chances it's the smallest tree. Smaller trees are less prone to overfit data, they return better predictions and they are way easier to interpret.

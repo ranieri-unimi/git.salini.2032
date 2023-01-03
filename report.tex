@@ -1,0 +1,1170 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\hypertarget{laddering-unite}{%
+\section{Laddering Unite}\label{laddering-unite}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(scales)}
+\end{Highlighting}
+\end{Shaded}
+
+Pokémon Unite is an online video game. Matches consist in 10 minutes
+where two teams, each with 5 players, must archive the highest score to
+win. The player will partake in team-based battles: two teams of five
+Pokémons battle against each other.
+
+At the beginning of a match, players will be able to select which
+Pokémon they want to play. Pokémons have different base stats and are
+better in some aspects of the games than others. For example, someone
+have high defence which allows them to play as a shield to Pokémons
+which have low health points, but high attack.
+
+While battling, the player is also able to level up once they defeat
+enough Pokémon. Once a Pokémon is defeated, opponent or wild, the player
+collects Balls which can then be dispensed to the opposing team's goal
+zones, and therefore collect points for the team. The player can heal by
+standing in their own team's goal zone or scoring points. The winner is
+decided by the higher final score of both teams once the battle timer is
+over.
+
+\hypertarget{datasets}{%
+\subsection{Datasets}\label{datasets}}
+
+Two tike of data source are used.
+
+\hypertarget{pokuxe9mon-features}{%
+\subsubsection{Pokémon Features}\label{pokuxe9mon-features}}
+
+The first dataset carries the features of each Pokémon. Raw data are
+stored by Pokémon level, let's merge them:
+
+\hypertarget{data-ingestion}{%
+\paragraph{Data Ingestion}\label{data-ingestion}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{read\_stats }\OtherTok{=} \ControlFlowTok{function}\NormalTok{()\{}
+\NormalTok{  df }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{15}\NormalTok{)\{}
+\NormalTok{    uri }\OtherTok{=} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"datasets/stats/\%s.csv"}\NormalTok{, i)}
+\NormalTok{    dfi }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(uri)}
+\NormalTok{    dfi}\SpecialCharTok{$}\NormalTok{level }\OtherTok{=}\NormalTok{ i}
+\NormalTok{    df }\OtherTok{=} \FunctionTok{rbind}\NormalTok{(df, dfi)}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(df)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{=} \FunctionTok{read\_stats}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Names are added for visualization purpose:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_rn }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}
+  \FunctionTok{toupper}\NormalTok{(}\FunctionTok{substr}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{name, }\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{)),}
+\NormalTok{  df}\SpecialCharTok{$}\NormalTok{level,}
+  \AttributeTok{sep=}\StringTok{""}\NormalTok{)}
+
+\FunctionTok{row.names}\NormalTok{(df) }\OtherTok{=}\NormalTok{ df\_rn}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{name }\OtherTok{=} \ConstantTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{speed }\OtherTok{=} \ConstantTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+Each Pokémon is described by 8 features:
+
+\begin{itemize}
+\tightlist
+\item
+  Health Points (HP)
+\item
+  Attack
+\item
+  Defense
+\item
+  Special Attack
+\item
+  Special Defense
+\item
+  Critical Rate
+\item
+  Cooldown Reduction Percentage
+\item
+  Life Steal Percentage
+\end{itemize}
+
+All of them are positive scalar, let's normalize them:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(df))\{}
+\NormalTok{  df[i] }\OtherTok{=}\NormalTok{ ((df[i] }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(df[i])) }\SpecialCharTok{/}\NormalTok{(}\FunctionTok{max}\NormalTok{(df[i])}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(df[i])))}
+\NormalTok{\}}
+
+\NormalTok{df }\OtherTok{=}\NormalTok{ df[df}\SpecialCharTok{$}\NormalTok{level }\SpecialCharTok{\textgreater{}}\NormalTok{ (}\DecValTok{13}\SpecialCharTok{/}\DecValTok{15}\NormalTok{),]}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{level }\OtherTok{=} \ConstantTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dimensionality-reduction}{%
+\paragraph{Dimensionality Reduction}\label{dimensionality-reduction}}
+
+The features of Pokémons are a bit redundant, let's reduce dimensions
+with PCA:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res }\OtherTok{=} \FunctionTok{princomp}\NormalTok{(df, }\AttributeTok{cor=}\NormalTok{T)}
+\FunctionTok{summary}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                           Comp.1    Comp.2    Comp.3     Comp.4     Comp.5
+## Standard deviation     1.9447788 1.6564725 0.9145924 0.48579637 0.40637021
+## Proportion of Variance 0.4727706 0.3429877 0.1045599 0.02949976 0.02064209
+## Cumulative Proportion  0.4727706 0.8157582 0.9203182 0.94981792 0.97046001
+##                            Comp.6     Comp.7      Comp.8
+## Standard deviation     0.34521247 0.29903741 0.166507853
+## Proportion of Variance 0.01489646 0.01117792 0.003465608
+## Cumulative Proportion  0.98535647 0.99653439 1.000000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{screeplot}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{scores, }\AttributeTok{cex=}\FloatTok{0.0}\NormalTok{)}
+\FunctionTok{text}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{scores, }\FunctionTok{rownames}\NormalTok{(df), }\AttributeTok{cex=}\FloatTok{0.6}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{0}\NormalTok{, }\AttributeTok{v=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pr.var}\OtherTok{=}\NormalTok{res}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{pve}\OtherTok{=}\NormalTok{pr.var}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(pr.var)}
+
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{cumsum}\NormalTok{(pve), }\AttributeTok{xlab=}\StringTok{"Principal Component"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Cumulative Proportion of Variance Explained"}\NormalTok{, }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{type=}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+The first two principal components are enough to explain the 80\% of the
+variability among the Pokemon stats. Let's find out their composition:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res}\SpecialCharTok{$}\NormalTok{loading[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    Comp.1      Comp.2
+## hp              0.1476821  0.55601887
+## attack          0.2797591 -0.25474867
+## defense         0.3728057  0.38087074
+## sp_attack      -0.4583060  0.04224364
+## sp_defense      0.3311075  0.44716195
+## crit_rate       0.3259758 -0.40775085
+## cooldown_reduc -0.4495800  0.06297616
+## life_steal      0.3645296 -0.33002806
+\end{verbatim}
+
+It seems that the first component measure the adverseness to be a core
+Special Attacker: very low \texttt{sp\_attack} and
+\texttt{cooldown\_reduc}. The second component seems to measure the
+defensiveness: low \texttt{attack}, \texttt{crit\_rate} and
+\texttt{life\_stea}l, against high \texttt{defense},
+\texttt{sp\_defence} and \texttt{hp}.
+
+\hypertarget{clustering}{%
+\paragraph{Clustering}\label{clustering}}
+
+However also the number of possible playable Pokemon is quite high. K
+means is applied to delineate groups of interchangeable Pokémon. K means
+cannot be applied over the original point cloud because features are not
+comparable (distances between points are not euclidean, and an
+appropriate distance has not been found)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{biplot}\NormalTok{(res, }\AttributeTok{cex=}\FloatTok{0.5}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{0}\NormalTok{, }\AttributeTok{v=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wssplot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{nc=}\DecValTok{15}\NormalTok{, }\AttributeTok{seed=}\DecValTok{1234}\NormalTok{)\{}
+\NormalTok{  wss }\OtherTok{=}\NormalTok{ (}\FunctionTok{nrow}\NormalTok{(data)}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sum}\NormalTok{(}\FunctionTok{apply}\NormalTok{(data,}\DecValTok{2}\NormalTok{,var))}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{nc)\{}
+    \FunctionTok{set.seed}\NormalTok{(seed)}
+\NormalTok{    wss[i] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{kmeans}\NormalTok{(data, }\AttributeTok{centers=}\NormalTok{i)}\SpecialCharTok{$}\NormalTok{withinss)\}}
+  \FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{nc, wss, }\AttributeTok{type=}\StringTok{"b"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Number of Clusters"}\NormalTok{,}
+       \AttributeTok{ylab=}\StringTok{"Within groups sum of squares"}\NormalTok{)\}}
+
+\FunctionTok{wssplot}\NormalTok{(df[}\DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(df)], }\AttributeTok{nc=}\DecValTok{12}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(cluster)}
+
+\FunctionTok{clusplot}\NormalTok{(df, }\FunctionTok{kmeans}\NormalTok{(df, }\AttributeTok{centers=}\DecValTok{6}\NormalTok{)}\SpecialCharTok{$}\NormalTok{cluster, }
+         \AttributeTok{main=}\StringTok{\textquotesingle{}2D representation of the Cluster solution\textquotesingle{}}\NormalTok{,}
+         \AttributeTok{color=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{shade=}\ConstantTok{TRUE}\NormalTok{,}
+         \AttributeTok{labels=}\DecValTok{2}\NormalTok{, }\AttributeTok{lines=}\DecValTok{0}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+We'll cheat a bit: a better clustering is found using \textbf{DB SCAN}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute DBSCAN using fpc package}
+\FunctionTok{library}\NormalTok{(}\StringTok{"fpc"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'fpc' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{db }\OtherTok{=}\NormalTok{ fpc}\SpecialCharTok{::}\FunctionTok{dbscan}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{scores, }\AttributeTok{eps =} \FloatTok{1.6}\NormalTok{, }\AttributeTok{MinPts =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Plot DBSCAN results}
+\FunctionTok{library}\NormalTok{(}\StringTok{"factoextra"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'factoextra' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{verbatim}
+## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_cluster}\NormalTok{(db, }\AttributeTok{data =}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{scores, }\AttributeTok{stand =} \ConstantTok{FALSE}\NormalTok{,}
+\AttributeTok{ellipse =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{show.clust.cent =} \ConstantTok{FALSE}\NormalTok{,}
+\AttributeTok{geom =} \StringTok{"point"}\NormalTok{,}\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{, }\AttributeTok{ggtheme =} \FunctionTok{theme\_classic}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# clookup = data.frame()}
+\CommentTok{\# }
+\CommentTok{\# for(c in 1:length(df))\{}
+\CommentTok{\#   clookup = rbind(clookup, c(c, row.names(df)[c], db$cluster[c]))}
+\CommentTok{\# \}}
+\CommentTok{\# }
+\CommentTok{\# colnames(clookup) = c(\textquotesingle{}id\textquotesingle{},\textquotesingle{}name\textquotesingle{}, \textquotesingle{}cluster\textquotesingle{})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{clust\_map }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"datasets/clusters.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{match-results}{%
+\subsubsection{Match Results}\label{match-results}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}datasets/matches.csv\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The second dataset carries the performances for 50 matches of all team
+players. Relevant metrics measured are:
+
+\begin{itemize}
+\tightlist
+\item
+  Level reached by the player
+\item
+  Individual points scored
+\item
+  Nº of kills
+\item
+  Nº of assist
+\item
+  Nº of interrupt
+\item
+  HP damage done
+\item
+  HP damage taken
+\item
+  HP self-cured
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pkmn\_count }\OtherTok{=} \FunctionTok{aggregate}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{score, }\AttributeTok{by=}\FunctionTok{list}\NormalTok{(}\AttributeTok{pokemon=}\NormalTok{dt}\SpecialCharTok{$}\NormalTok{pokemon), }\AttributeTok{FUN=}\NormalTok{length)}
+\NormalTok{pkmn\_count[}\FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{pkmn\_count}\SpecialCharTok{$}\NormalTok{x),][}\DecValTok{1}\SpecialCharTok{:}\DecValTok{7}\NormalTok{,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      pokemon  x
+## 10   Crustle 44
+## 29    MrMime 35
+## 7  Charizard 28
+## 31   Pikachu 24
+## 28       Mew 23
+## 17    Espeon 19
+## 20    Gengar 19
+\end{verbatim}
+
+Players do not choose Pokémon uniformly, somehow cluster delineated
+above will help to analyze the whole picture of a Pokémon role-play,
+instead of focusing on each single Pokémon.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{score)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  dt$score
+## W = 0.91439, p-value = 3.301e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'ggpubr' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggqqplot}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{score)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggdensity}\NormalTok{(dt, }\AttributeTok{x =} \StringTok{"score"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"lightgray"}\NormalTok{, }\AttributeTok{title =} \StringTok{"score"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_overlay\_normal\_density}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-20-2.pdf}
+
+The score archived by each single player is not a reliable dependent
+variable, it's weirdly bi-modal due to game mechanics, and somewhat
+poissionian. Instead, the pretty binary win-lose outcome will be
+considered.
+
+\hypertarget{optimize-gameplay---forward-selection-and-logistic-regression}{%
+\subsection{Optimize Gameplay - Forward Selection and Logistic
+Regression}\label{optimize-gameplay---forward-selection-and-logistic-regression}}
+
+Let's see regression for two different Pokémons. Forward Selection is
+implemented to point which match stats are more relevant for each
+Pokémon.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(leaps)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'leaps' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cols }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}level\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}score\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}kill\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}assist\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}interrupt\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}damage\_done\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}damage\_taken\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}damage\_healed\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\emph{Why Y and Log X? Interpretation purpose:}
+
+\emph{\textbf{LINEAR}: A 1\% increase in X would lead to a β\%
+increase/decrease in Y}
+
+\emph{\textbf{LOGIT}: A k-factor increase in X would lead to a k**β
+increase in odds.}
+
+\href{https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression}{\emph{https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression}}
+\end{quote}
+
+\hypertarget{crustle}{%
+\subsubsection{Crustle}\label{crustle}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{who }\OtherTok{=} \StringTok{"Crustle"}
+
+\NormalTok{dtw }\OtherTok{=}\NormalTok{ dt[dt}\SpecialCharTok{$}\NormalTok{pokemon }\SpecialCharTok{==}\NormalTok{ who, ]}
+\NormalTok{dtw[,cols] }\OtherTok{=} \FunctionTok{log}\NormalTok{(dtw[,cols]}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{regfit.fwd }\OtherTok{=} \FunctionTok{regsubsets}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ level }\SpecialCharTok{+}\NormalTok{ score }\SpecialCharTok{+}\NormalTok{ kill }\SpecialCharTok{+}\NormalTok{ assist }\SpecialCharTok{+}\NormalTok{ interrupt }\SpecialCharTok{+}\NormalTok{ damage\_done }\SpecialCharTok{+}\NormalTok{ damage\_taken }\SpecialCharTok{+}\NormalTok{ damage\_healed, }\AttributeTok{data=}\NormalTok{dtw, }\AttributeTok{method=}\StringTok{"forward"}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(regfit.fwd)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Subset selection object
+## Call: regsubsets.formula(win ~ level + score + kill + assist + interrupt + 
+##     damage_done + damage_taken + damage_healed, data = dtw, method = "forward")
+## 8 Variables  (and intercept)
+##               Forced in Forced out
+## level             FALSE      FALSE
+## score             FALSE      FALSE
+## kill              FALSE      FALSE
+## assist            FALSE      FALSE
+## interrupt         FALSE      FALSE
+## damage_done       FALSE      FALSE
+## damage_taken      FALSE      FALSE
+## damage_healed     FALSE      FALSE
+## 1 subsets of each size up to 8
+## Selection Algorithm: forward
+##          level score kill assist interrupt damage_done damage_taken
+## 1  ( 1 ) " "   " "   " "  "*"    " "       " "         " "         
+## 2  ( 1 ) "*"   " "   " "  "*"    " "       " "         " "         
+## 3  ( 1 ) "*"   " "   " "  "*"    " "       " "         " "         
+## 4  ( 1 ) "*"   " "   " "  "*"    " "       " "         "*"         
+## 5  ( 1 ) "*"   " "   "*"  "*"    " "       " "         "*"         
+## 6  ( 1 ) "*"   " "   "*"  "*"    " "       "*"         "*"         
+## 7  ( 1 ) "*"   "*"   "*"  "*"    " "       "*"         "*"         
+## 8  ( 1 ) "*"   "*"   "*"  "*"    "*"       "*"         "*"         
+##          damage_healed
+## 1  ( 1 ) " "          
+## 2  ( 1 ) " "          
+## 3  ( 1 ) "*"          
+## 4  ( 1 ) "*"          
+## 5  ( 1 ) "*"          
+## 6  ( 1 ) "*"          
+## 7  ( 1 ) "*"          
+## 8  ( 1 ) "*"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glm.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ assist }\SpecialCharTok{+}\NormalTok{ level , }\AttributeTok{data =}\NormalTok{ dtw, }\AttributeTok{family=}\FunctionTok{binomial}\NormalTok{(}\AttributeTok{link=}\StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(glm.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = win ~ assist + level, family = binomial(link = "logit"), 
+##     data = dtw)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.7461  -0.8556   0.2972   0.8821   1.7616  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)  -34.787     13.786  -2.523   0.0116 *
+## assist         2.939      1.176   2.498   0.0125 *
+## level         11.206      4.974   2.253   0.0243 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 59.534  on 43  degrees of freedom
+## Residual deviance: 45.151  on 41  degrees of freedom
+## AIC: 51.151
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+Crustle, in order to raise its win odds, have, first of all, to keep its
+level high and secondly to assist its teammates during fights.
+
+\hypertarget{pikachu}{%
+\subsubsection{Pikachu}\label{pikachu}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{who }\OtherTok{=} \StringTok{"Pikachu"}
+
+\NormalTok{dtw }\OtherTok{=}\NormalTok{ dt[dt}\SpecialCharTok{$}\NormalTok{pokemon }\SpecialCharTok{==}\NormalTok{ who, ]}
+\NormalTok{dtw[,cols] }\OtherTok{=} \FunctionTok{log}\NormalTok{(dtw[,cols]}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{regfit.fwd }\OtherTok{=} \FunctionTok{regsubsets}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ level }\SpecialCharTok{+}\NormalTok{ score }\SpecialCharTok{+}\NormalTok{ kill }\SpecialCharTok{+}\NormalTok{ assist }\SpecialCharTok{+}\NormalTok{ interrupt }\SpecialCharTok{+}\NormalTok{ damage\_done }\SpecialCharTok{+}\NormalTok{ damage\_taken }\SpecialCharTok{+}\NormalTok{ damage\_healed, }\AttributeTok{data=}\NormalTok{dtw, }\AttributeTok{method=}\StringTok{"forward"}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(regfit.fwd)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Subset selection object
+## Call: regsubsets.formula(win ~ level + score + kill + assist + interrupt + 
+##     damage_done + damage_taken + damage_healed, data = dtw, method = "forward")
+## 8 Variables  (and intercept)
+##               Forced in Forced out
+## level             FALSE      FALSE
+## score             FALSE      FALSE
+## kill              FALSE      FALSE
+## assist            FALSE      FALSE
+## interrupt         FALSE      FALSE
+## damage_done       FALSE      FALSE
+## damage_taken      FALSE      FALSE
+## damage_healed     FALSE      FALSE
+## 1 subsets of each size up to 8
+## Selection Algorithm: forward
+##          level score kill assist interrupt damage_done damage_taken
+## 1  ( 1 ) " "   " "   " "  " "    " "       " "         "*"         
+## 2  ( 1 ) " "   "*"   " "  " "    " "       " "         "*"         
+## 3  ( 1 ) " "   "*"   " "  "*"    " "       " "         "*"         
+## 4  ( 1 ) " "   "*"   " "  "*"    "*"       " "         "*"         
+## 5  ( 1 ) "*"   "*"   " "  "*"    "*"       " "         "*"         
+## 6  ( 1 ) "*"   "*"   " "  "*"    "*"       " "         "*"         
+## 7  ( 1 ) "*"   "*"   "*"  "*"    "*"       " "         "*"         
+## 8  ( 1 ) "*"   "*"   "*"  "*"    "*"       "*"         "*"         
+##          damage_healed
+## 1  ( 1 ) " "          
+## 2  ( 1 ) " "          
+## 3  ( 1 ) " "          
+## 4  ( 1 ) " "          
+## 5  ( 1 ) " "          
+## 6  ( 1 ) "*"          
+## 7  ( 1 ) "*"          
+## 8  ( 1 ) "*"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glm.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ damage\_taken }\SpecialCharTok{+}\NormalTok{ score , }\AttributeTok{data =}\NormalTok{ dtw, }\AttributeTok{family=}\FunctionTok{binomial}\NormalTok{(}\AttributeTok{link=}\StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(glm.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = win ~ damage_taken + score, family = binomial(link = "logit"), 
+##     data = dtw)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.95316  -0.65115  -0.09791   0.87001   1.51511  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)   89.4655    48.5409   1.843   0.0653 .
+## damage_taken  -8.7857     4.6469  -1.891   0.0587 .
+## score          1.0993     0.5533   1.987   0.0469 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 33.104  on 23  degrees of freedom
+## Residual deviance: 20.938  on 21  degrees of freedom
+## AIC: 26.938
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+On the other hand, Pikachu have to avoid damage from opponents, and
+prioritize scoring.
+
+\hypertarget{team-synergy}{%
+\subsection{Team synergy}\label{team-synergy}}
+
+Winning it's not just a matter of single players behavior, but also of
+compatibility between Pokemons. Most of the time a team with balanced
+roles and stats is the main key for the victory.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dp }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"datasets/pivot.group.matches.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Match results have been pivoted, the metrics that have been kept for
+each team are: - The average performance achieved - The count of Pokemon
+that were played for each role-cluster
+
+Let's move a bit out of linearity:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# for( c in names(dp)[55:60])\{}
+\CommentTok{\#   dp[paste0(c,\textquotesingle{}\_2\textquotesingle{})] = as.integer(dp[c] \textgreater{} 1)}
+\CommentTok{\#   dp[c] = as.integer(dp[c] == 1)}
+\CommentTok{\# \}}
+
+\ControlFlowTok{for}\NormalTok{( c }\ControlFlowTok{in} \FunctionTok{names}\NormalTok{(dp)[}\DecValTok{55}\SpecialCharTok{:}\DecValTok{60}\NormalTok{])\{}
+\NormalTok{  dp[}\FunctionTok{paste0}\NormalTok{(c,}\StringTok{\textquotesingle{}\_2\textquotesingle{}}\NormalTok{)] }\OtherTok{=}\NormalTok{ (dp[c]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-balanced-team---logistic-regression}{%
+\subsubsection{A Balanced Team - Logistic
+Regression}\label{a-balanced-team---logistic-regression}}
+
+To model how team roles should be balanced a logistic regression is
+carried out over team compositions, using the role-groups delineated in
+the previous clustering. For visualization purpose, label names have
+been assigned manually:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(dp)[}\DecValTok{55}\SpecialCharTok{:}\DecValTok{60}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "support"    "versatile"  "atk_ranged" "sp_atk"     "speedster" 
+## [6] "defence"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glm.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ support }\SpecialCharTok{+}\NormalTok{ versatile }\SpecialCharTok{+}\NormalTok{ atk\_ranged }\SpecialCharTok{+}\NormalTok{ sp\_atk }\SpecialCharTok{+}\NormalTok{ speedster }\SpecialCharTok{+}\NormalTok{ defence}
+                \SpecialCharTok{+}\NormalTok{ support\_2 }\SpecialCharTok{+}\NormalTok{ versatile\_2 }\SpecialCharTok{+}\NormalTok{ atk\_ranged\_2 }\SpecialCharTok{+}\NormalTok{ sp\_atk\_2 }\SpecialCharTok{+}\NormalTok{ speedster\_2 }\SpecialCharTok{+}\NormalTok{ defence\_2}
+\NormalTok{               , }\AttributeTok{data =}\NormalTok{ dp, }\AttributeTok{family=}\FunctionTok{binomial}\NormalTok{(}\AttributeTok{link=}\StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(glm.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = win ~ support + versatile + atk_ranged + sp_atk + 
+##     speedster + defence + support_2 + versatile_2 + atk_ranged_2 + 
+##     sp_atk_2 + speedster_2 + defence_2, family = binomial(link = "logit"), 
+##     data = dp)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.7978  -1.0045   0.2275   1.1031   1.6541  
+## 
+## Coefficients: (1 not defined because of singularities)
+##               Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)    2.70226    5.29804   0.510   0.6100  
+## support        8.29985  528.47501   0.016   0.9875  
+## versatile     -1.87832    1.51146  -1.243   0.2140  
+## atk_ranged    -2.69874    1.88824  -1.429   0.1529  
+## sp_atk        -0.77876    1.55093  -0.502   0.6156  
+## speedster     -1.41344    1.47315  -0.959   0.3373  
+## defence             NA         NA      NA       NA  
+## support_2     -8.46513  528.47347  -0.016   0.9872  
+## versatile_2    0.70974    0.38237   1.856   0.0634 .
+## atk_ranged_2   1.29400    0.82956   1.560   0.1188  
+## sp_atk_2       0.07928    0.29942   0.265   0.7912  
+## speedster_2    0.46978    0.65556   0.717   0.4736  
+## defence_2      0.03727    0.39650   0.094   0.9251  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 138.63  on 99  degrees of freedom
+## Residual deviance: 119.37  on 88  degrees of freedom
+## AIC: 143.37
+## 
+## Number of Fisher Scoring iterations: 15
+\end{verbatim}
+
+Sadly results are nor meaningful neither interpretable, a different
+approach should be used.
+
+\hypertarget{some-spourious-regression---just-for-fun}{%
+\subsubsection{Some spourious regression - just for
+fun}\label{some-spourious-regression---just-for-fun}}
+
+May be fun to regress the winning odds of each single Pokemon, despite
+they won't be statistically significant.
+
+\hypertarget{over-all-pokuxe9mon}{%
+\paragraph{Over all Pokémon}\label{over-all-pokuxe9mon}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glm.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Absol }\SpecialCharTok{+}\NormalTok{ Aegislash }\SpecialCharTok{+}\NormalTok{ Azumarill }\SpecialCharTok{+}\NormalTok{ Blastoise }\SpecialCharTok{+}\NormalTok{ Blissey }\SpecialCharTok{+}\NormalTok{ Buzzwole }\SpecialCharTok{+}\NormalTok{ Charizard }\SpecialCharTok{+}\NormalTok{ Cinderace }\SpecialCharTok{+}\NormalTok{ Cramorant }\SpecialCharTok{+}\NormalTok{ Crustle }\SpecialCharTok{+}\NormalTok{ Decidueye }\SpecialCharTok{+}\NormalTok{ Delphox }\SpecialCharTok{+}\NormalTok{ Dodrio }\SpecialCharTok{+}\NormalTok{ Dragonite }\SpecialCharTok{+}\NormalTok{ Duraludon }\SpecialCharTok{+}\NormalTok{ Eldegoss }\SpecialCharTok{+}\NormalTok{ Espeon }\SpecialCharTok{+}\NormalTok{ Garchomp }\SpecialCharTok{+}\NormalTok{ Gardevoir }\SpecialCharTok{+}\NormalTok{ Gengar }\SpecialCharTok{+}\NormalTok{ Glaceon }\SpecialCharTok{+}\NormalTok{ Greedent }\SpecialCharTok{+}\NormalTok{ Greninja }\SpecialCharTok{+}\NormalTok{ Hoopa }\SpecialCharTok{+}\NormalTok{ Lucario }\SpecialCharTok{+}\NormalTok{ Machamp }\SpecialCharTok{+}\NormalTok{ Mamoswine }\SpecialCharTok{+}\NormalTok{ Mew }\SpecialCharTok{+}\NormalTok{ MrMime }\SpecialCharTok{+}\NormalTok{ Ninetales }\SpecialCharTok{+}\NormalTok{ Pikachu }\SpecialCharTok{+}\NormalTok{ Scizor }\SpecialCharTok{+}\NormalTok{ Slowbro }\SpecialCharTok{+}\NormalTok{ Snorlax }\SpecialCharTok{+}\NormalTok{ Sylveon }\SpecialCharTok{+}\NormalTok{ Talonflame }\SpecialCharTok{+}\NormalTok{ Trevenant }\SpecialCharTok{+}\NormalTok{ Tsareena }\SpecialCharTok{+}\NormalTok{ Tyranitar }\SpecialCharTok{+}\NormalTok{ Venusaur }\SpecialCharTok{+}\NormalTok{ Wigglytuff}
+\NormalTok{               , }\AttributeTok{data =}\NormalTok{ dp, }\AttributeTok{family=}\FunctionTok{binomial}\NormalTok{(}\AttributeTok{link=}\StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(glm.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = win ~ Absol + Aegislash + Azumarill + Blastoise + 
+##     Blissey + Buzzwole + Charizard + Cinderace + Cramorant + 
+##     Crustle + Decidueye + Delphox + Dodrio + Dragonite + Duraludon + 
+##     Eldegoss + Espeon + Garchomp + Gardevoir + Gengar + Glaceon + 
+##     Greedent + Greninja + Hoopa + Lucario + Machamp + Mamoswine + 
+##     Mew + MrMime + Ninetales + Pikachu + Scizor + Slowbro + Snorlax + 
+##     Sylveon + Talonflame + Trevenant + Tsareena + Tyranitar + 
+##     Venusaur + Wigglytuff, family = binomial(link = "logit"), 
+##     data = dp)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.15765  -0.73826  -0.00007   0.65258   2.23185  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)   -3.7186     6.6783  -0.557   0.5776  
+## Absol         -0.4267     1.4904  -0.286   0.7747  
+## Aegislash     -0.3059     1.7889  -0.171   0.8642  
+## Azumarill      0.6711     2.0982   0.320   0.7491  
+## Blastoise      0.4757     2.3384   0.203   0.8388  
+## Blissey       -2.0624     2.3340  -0.884   0.3769  
+## Buzzwole      -0.2171     1.5525  -0.140   0.8888  
+## Charizard      1.9789     1.5265   1.296   0.1949  
+## Cinderace      0.7130     1.8487   0.386   0.6997  
+## Cramorant      3.9090     2.0634   1.894   0.0582 .
+## Crustle        1.6400     1.8859   0.870   0.3845  
+## Decidueye     -4.2462     2.0528  -2.068   0.0386 *
+## Delphox       -0.2954     1.8229  -0.162   0.8713  
+## Dodrio        -2.0708     1.9430  -1.066   0.2865  
+## Dragonite     20.6186  2443.1429   0.008   0.9933  
+## Duraludon      2.3831     2.6566   0.897   0.3697  
+## Eldegoss     -13.3765  6522.6405  -0.002   0.9984  
+## Espeon         1.2126     1.6183   0.749   0.4537  
+## Garchomp      -4.0366     2.2587  -1.787   0.0739 .
+## Gardevoir     -0.2491     1.4826  -0.168   0.8666  
+## Gengar         0.5466     1.6378   0.334   0.7386  
+## Glaceon        1.2529     1.9886   0.630   0.5287  
+## Greedent      25.0845  2243.8556   0.011   0.9911  
+## Greninja      -0.8560     1.5889  -0.539   0.5901  
+## Hoopa        -35.3293  6965.1836  -0.005   0.9960  
+## Lucario        3.8192     2.4756   1.543   0.1229  
+## Machamp        3.0341     2.1586   1.406   0.1598  
+## Mamoswine      4.0264     1.9002   2.119   0.0341 *
+## Mew            1.5980     1.6265   0.982   0.3259  
+## MrMime         2.6521     1.7042   1.556   0.1197  
+## Ninetales      5.5103     3.0421   1.811   0.0701 .
+## Pikachu       -0.3317     1.6932  -0.196   0.8447  
+## Scizor         2.0729     2.1384   0.969   0.3324  
+## Slowbro       -0.2147     2.3393  -0.092   0.9269  
+## Snorlax        2.9405     1.7438   1.686   0.0918 .
+## Sylveon        0.0113     1.9458   0.006   0.9954  
+## Talonflame     1.7263     3.7487   0.461   0.6452  
+## Trevenant     -0.9012     1.7182  -0.525   0.5999  
+## Tsareena      -1.1144     1.7644  -0.632   0.5277  
+## Tyranitar      2.2295     1.5617   1.428   0.1534  
+## Venusaur      -2.8436     1.9805  -1.436   0.1511  
+## Wigglytuff     1.7087     2.1694   0.788   0.4309  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 138.629  on 99  degrees of freedom
+## Residual deviance:  78.108  on 58  degrees of freedom
+## AIC: 162.11
+## 
+## Number of Fisher Scoring iterations: 17
+\end{verbatim}
+
+\hypertarget{over-a-single-pokuxe9mon}{%
+\paragraph{Over a single Pokémon}\label{over-a-single-pokuxe9mon}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glm.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Decidueye , }\AttributeTok{data =}\NormalTok{ dp, }\AttributeTok{family=}\FunctionTok{binomial}\NormalTok{(}\AttributeTok{link=}\StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(glm.fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = win ~ Decidueye, family = binomial(link = "logit"), 
+##     data = dp)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2450  -1.2450   0.2389   1.1113   1.8465  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)   0.1576     0.2127   0.741   0.4586  
+## Decidueye    -1.6617     0.8100  -2.051   0.0402 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 138.63  on 99  degrees of freedom
+## Residual deviance: 133.26  on 98  degrees of freedom
+## AIC: 137.26
+## 
+## Number of Fisher Scoring iterations: 3
+\end{verbatim}
+
+\hypertarget{a-balanced-team---decision-tree}{%
+\subsubsection{A Balanced Team - Decision
+Tree}\label{a-balanced-team---decision-tree}}
+
+Trees are more powerful, they can take in account interaction between
+variables and archive a sort of binary win-lose classification.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dp\_group }\OtherTok{=}\NormalTok{ dp[}\DecValTok{55}\SpecialCharTok{:}\DecValTok{60}\NormalTok{]}
+\NormalTok{dp\_group}\SpecialCharTok{$}\NormalTok{win }\OtherTok{=}\NormalTok{ dp}\SpecialCharTok{$}\NormalTok{win}
+\end{Highlighting}
+\end{Shaded}
+
+The accuracy of tree predictions is evaluated by computing the MSE. A
+side dataset obtained by surveying some players is used as test set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_data }\OtherTok{=}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"datasets/survey.test.set.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tree-0---tree-rbase}{%
+\paragraph{Tree \#0 - tree rbase}\label{tree-0---tree-rbase}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tree' was built under R version 4.1.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tree }\OtherTok{\textless{}{-}} \FunctionTok{tree}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ dp\_group)}
+\FunctionTok{summary}\NormalTok{(tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Regression tree:
+## tree(formula = win ~ ., data = dp_group)
+## Variables actually used in tree construction:
+## [1] "support"    "atk_ranged" "speedster"  "versatile"  "sp_atk"    
+## Number of terminal nodes:  9 
+## Residual mean deviance:  0.2173 = 19.78 / 91 
+## Distribution of residuals:
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.85710 -0.33330  0.07143  0.00000  0.30430  0.80000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(tree)}
+\FunctionTok{text}\NormalTok{(tree, }\AttributeTok{pretty =} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yhat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(tree, }\AttributeTok{newdata =}\NormalTok{ new\_data)}
+\FunctionTok{plot}\NormalTok{(yhat, new\_data}\SpecialCharTok{$}\NormalTok{win)}
+\FunctionTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{((yhat }\SpecialCharTok{{-}}\NormalTok{ new\_data}\SpecialCharTok{$}\NormalTok{win)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3752574
+\end{verbatim}
+
+\hypertarget{tree-1---rpart}{%
+\paragraph{Tree \#1 - rpart}\label{tree-1---rpart}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"rpart"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"rpart.plot"}\NormalTok{)}
+\NormalTok{tree1 }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ dp\_group, }\AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}\AttributeTok{cp =} \DecValTok{0}\NormalTok{, }\AttributeTok{minsplit =} \DecValTok{10}\NormalTok{, }\AttributeTok{maxsurrogate =} \DecValTok{10}\NormalTok{))}
+\FunctionTok{printcp}\NormalTok{(tree1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Regression tree:
+## rpart(formula = win ~ ., data = dp_group, control = rpart.control(cp = 0, 
+##     minsplit = 10, maxsurrogate = 10))
+## 
+## Variables actually used in tree construction:
+## [1] atk_ranged defence    sp_atk     speedster  support    versatile 
+## 
+## Root node error: 25/100 = 0.25
+## 
+## n= 100 
+## 
+##            CP nsplit rel error xerror      xstd
+## 1  5.2632e-02      0   1.00000 1.0263 0.0070528
+## 2  3.4022e-02      1   0.94737 1.0288 0.0315830
+## 3  1.4963e-02      4   0.84530 1.1582 0.0801283
+## 4  1.2422e-02      6   0.81537 1.3196 0.1072443
+## 5  1.1852e-02      7   0.80295 1.3520 0.1097617
+## 6  8.6580e-03      8   0.79110 1.3641 0.1104505
+## 7  7.7057e-03      9   0.78244 1.3553 0.1133937
+## 8  6.8571e-03     10   0.77474 1.3550 0.1145089
+## 9  4.9231e-03     11   0.76788 1.3667 0.1152427
+## 10 4.6753e-03     12   0.76296 1.3681 0.1153486
+## 11 1.1722e-03     13   0.75828 1.3795 0.1153362
+## 12 7.6923e-05     14   0.75711 1.3846 0.1160244
+## 13 0.0000e+00     15   0.75703 1.3846 0.1160244
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rpart.plot}\NormalTok{(tree1)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yhat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(tree1, }\AttributeTok{newdata =}\NormalTok{ new\_data)}
+\FunctionTok{plot}\NormalTok{(yhat, new\_data}\SpecialCharTok{$}\NormalTok{win)}
+\FunctionTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{((yhat }\SpecialCharTok{{-}}\NormalTok{ new\_data}\SpecialCharTok{$}\NormalTok{win)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4714233
+\end{verbatim}
+
+\hypertarget{tree-2---partykit}{%
+\paragraph{Tree \#2 - partykit}\label{tree-2---partykit}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"partykit"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"party"}\NormalTok{)}
+\NormalTok{tree2 }\OtherTok{\textless{}{-}} \FunctionTok{ctree}\NormalTok{(win }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ dp\_group, }\AttributeTok{controls =} \FunctionTok{ctree\_control}\NormalTok{(}\AttributeTok{testtype =} \StringTok{"Teststatistic"}\NormalTok{, }\AttributeTok{maxsurrogate =} \DecValTok{1}\NormalTok{, }\AttributeTok{mincriterion =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{minsplit =} \DecValTok{1}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(tree2, }\AttributeTok{cgp =} \FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yhat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(tree2, }\AttributeTok{newdata =}\NormalTok{ new\_data)}
+\FunctionTok{plot}\NormalTok{(yhat, new\_data}\SpecialCharTok{$}\NormalTok{win)}
+\FunctionTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{((yhat }\SpecialCharTok{{-}}\NormalTok{ new\_data}\SpecialCharTok{$}\NormalTok{win)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3078129
+\end{verbatim}
+
+\hypertarget{consideration}{%
+\paragraph{Consideration}\label{consideration}}
+
+The best tree (\#2) archive a MSE of 0.30, and not by chances it's the
+smallest tree. Smaller trees are less prone to overfit data, they return
+better predictions and they are way easier to interpret.
+
+\end{document}
