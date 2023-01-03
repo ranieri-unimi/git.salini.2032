@@ -1,16 +1,25 @@
-# laddering unite
+# Laddering Unite
 
 ```{r}
 library(scales)
 ```
 
+Pokémon Unite is an online video game. Matches consist in 10 minutes where two teams, each with 5 players, must archive the highest score to win. The player will partake in team-based battles: two teams of five Pokémons battle against each other.
 
-Two datasests have been used.
+At the beginning of a match, players will be able to select which Pokémon they want to play. Pokémons have different base stats and are better in some aspects of the games than others. For example, someone have high defence which allows them to play as a shield to Pokémons which have low health points, but high attack.
 
-## pokemon features
-The first dataset carries features of each pokemon. Raw data are stored by pokemon level, let's merge them:
+While battling, the player is also able to level up once they defeat enough Pokémon. Once a Pokémon is defeated, opponent or wild, the player collects Balls which can then be dispensed to the opposing team's goal zones, and therefore collect points for the team. The player can heal by standing in their own team's goal zone or scoring points. The winner is decided by the higher final score of both teams once the battle timer is over.
 
-### data ingestion
+## Datasets
+
+Two tike of data source are used.
+
+### Pokémon Features
+
+The first dataset carries the features of each Pokémon. Raw data are stored by Pokémon level, let's merge them:
+
+#### Data Ingestion
+
 ```{r}
 read_stats = function(){
   df = data.frame()
@@ -28,7 +37,7 @@ read_stats = function(){
 df = read_stats()
 ```
 
-(names for visualization purpose)
+Names are added for visualization purpose:
 
 ```{r}
 df_rn = paste(
@@ -44,7 +53,18 @@ df$name = NULL
 df$speed = NULL
 ```
 
-Each pokemon is described by 10 features. Let's normalize them:
+Each Pokémon is described by 8 features:
+
+-   Health Points (HP)
+-   Attack
+-   Defense
+-   Special Attack
+-   Special Defense
+-   Critical Rate
+-   Cooldown Reduction Percentage
+-   Life Steal Percentage
+
+All of them are positive scalar, let's normalize them:
 
 ```{r}
 for(i in 1:length(df)){
@@ -55,16 +75,13 @@ df = df[df$level > (13/15),]
 df$level = NULL
 ```
 
-## dimensionality reduction
-pokemon features are a bit redundant, let's reduce dimensions with pca!
+### Dimensionality Reduction
+
+The features of Pokémons are a bit redundant, let's reduce dimensions with PCA:
 
 ```{r}
 res = princomp(df, cor=T)
 summary(res)
-```
-
-```{r}
-res$loading
 ```
 
 ```{r}
@@ -81,10 +98,19 @@ pve=pr.var/sum(pr.var)
 plot(cumsum(pve), xlab="Principal Component", ylab="Cumulative Proportion of Variance Explained", ylim=c(0,1),type='b')
 ```
 
-## clustering
-Instead of embedding each pokemon with its coordinates on the space of the tw pricipal components, k means has been applied to discover groups od interchangeable Pokemon.
+The first two principal components are enough to explain the 80% of the variability among the Pokemon stats. Let's find out their composition:
 
-We cannot use k means over the original point cloud, because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
+```{r}
+res$loading[,1:2]
+```
+
+It seems that the first component measure the adverseness to be a core Special Attacker: very low `sp_attack` and `cooldown_reduc`.
+The second component seems to measure the defensiveness: low `attack`, `crit_rate` and `life_stea`l, against high `defense`, `sp_defence` and `hp`.
+
+### Clustering
+
+K means is applied to delineate groups of interchangeable Pokémon.
+K means cannot be applied over the original point cloud because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
 
 ```{r}
 biplot(res, cex=0.5)
@@ -112,7 +138,7 @@ clusplot(df, kmeans(df, centers=6)$cluster,
          labels=2, lines=0, cex=0.5)
 ```
 
-hack: a better clustering has been found using DB SCAN
+We'll cheat a bit: a better clustering is found using **DB SCAN**
 
 ```{r}
 # Compute DBSCAN using fpc package
@@ -142,17 +168,29 @@ geom = "point",palette = "jco", ggtheme = theme_classic())
 clust_map = read.csv("datasets/clusters.csv")
 ```
 
+### Match Results
+
 ```{r}
 dt = read.csv('datasets/matches.csv')
 ```
 
-## match results
+The second dataset carries the performances for 50 matches of all team players. Relevant metrics measured are:
 
+-   Level reached by the player
+-   Individual points scored
+-   Nº of kills
+-   Nº of assist
+-   Nº of interrupt
+-   HP damage done
+-   HP damage taken
+-   HP self-cured
 
 ```{r}
 pkmn_count = aggregate(dt$score, by=list(pokemon=dt$pokemon), FUN=length)
 pkmn_count[order(-pkmn_count$x),][1:7,]
 ```
+
+Players do not choose Pokémon uniformly, somehow cluster delineated above will help to analyze the whole picture of a Pokémon role-play, instead of focusing on each single Pokémon.
 
 ```{r}
 shapiro.test(dt$score)
@@ -161,25 +199,30 @@ shapiro.test(dt$score)
 ```{r}
 library(ggpubr)
 ggqqplot(dt$score)
-ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
+ggdensity(dt, x = "dt$score", fill = "lightgray", title = "score") +
   stat_overlay_normal_density(color = "red", linetype = "dashed")
 ```
 
-### Forward Selection as suggested behavior
+The score archived by each single player is not a reliable dependent variable, it's weirdly bi-modal due to game mechanics, and somewhat poissionian. Instead, the pretty binary win-lose outcome will be considered.
 
-Let's see regression for two different pokemons 
+## Models
+
+### Forward Selection and Logistic Regression
+
+Let's see regression for two different Pokémons. Forward Selection is implemented to point which match stats are more relevant for each Pokémon.
 
 ```{r}
 library(leaps)
 cols = c('level', 'score', 'kill', 'assist', 'interrupt', 'damage_done', 'damage_taken', 'damage_healed')
 ```
 
-Why Y and Log X? Interpretation purpose:
-
-LINEAR: A 1% increase in X would lead to a β% increase/decrease in Y
-LOGIT: A k-factor increase in X would lead to a k**β increase in odds.
-
-https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression
+> *Why Y and Log X? Interpretation purpose:*
+>
+> ***LINEAR**: A 1% increase in X would lead to a β% increase/decrease in Y*
+>
+> ***LOGIT**: A k-factor increase in X would lead to a k\*\*β increase in odds.*
+>
+> [*https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression*](https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression){.uri}
 
 #### Crustle
 
@@ -199,6 +242,8 @@ glm.fit <- glm(win ~ assist + level , data = dtw, family=binomial(link='logit'))
 summary(glm.fit)
 ```
 
+Crustle, in order to raise its win odds, have, first of all, to keep its level high and secondly to assist its teammates during fights.
+
 #### Pikachu
 
 ```{r}
@@ -217,13 +262,21 @@ glm.fit <- glm(win ~ damage_taken + score , data = dtw, family=binomial(link='lo
 summary(glm.fit)
 ```
 
+On the other hand, Pikachu have to avoid damage from opponents, and prioritize scoring.
 
-## dumming
+## Team synergy
+
+Winning it's not just a matter of single players behavior, but also of compatibility between Pokemons. Most of the time a team with balanced roles and stats is the main key for the victory.
+
 ```{r}
 dp = read.csv("datasets/pivot.group.matches.csv")
 ```
 
-let's move out of linearity:
+Match results have been pivoted, the metrics that have been kept for each team are:
+- The average performance achieved
+- The count of Pokemon that were played for each role-cluster
+
+Let's move a bit out of linearity:
 
 ```{r}
 # for( c in names(dp)[55:60]){
@@ -236,43 +289,60 @@ for( c in names(dp)[55:60]){
 }
 ```
 
-### teammate
+### A Balanced Team - Logistic regression
+
+To model how team roles should be balanced a logistic regression is carried out over team compositions, using the role-groups delineated in the previous clustering. For visualization purpose, label names have been assigned manually:
+
 ```{r}
 names(dp)[55:60]
 ```
 
 ```{r}
-regfit.fwd = regsubsets(win ~ support + versatile + atk_ranged + sp_atk + speedster + defence
-               + support_2 + versatile_2 + atk_ranged_2 + sp_atk_2 + speedster_2 + defence_2
-               , data=dp, method="exhaustive")
-
-summary(regfit.fwd)
-```
-
-
-```{r}
 glm.fit <- glm(win ~ support + versatile + atk_ranged + sp_atk + speedster + defence
-               + support_2 + versatile_2 + atk_ranged_2 + sp_atk_2 + speedster_2 + defence_2
+                + support_2 + versatile_2 + atk_ranged_2 + sp_atk_2 + speedster_2 + defence_2
                , data = dp, family=binomial(link='logit'))
 summary(glm.fit)
 ```
 
-#### single pokemon
+Sadly results are nor meaningful neither interpretable, a different approach should be used.
 
+### Some spourious regression - just for fun
+
+May be fun to regress the winning odds of each single Pokemon, despite they won't be statistically significant.
+
+#### Over all Pokémon
 
 ```{r}
-glm.fit <- glm(win ~ Absol + Aegislash + Azumarill + Blastoise + Blissey + Buzzwole + Charizard + Cinderace + Cramorant + Crustle + Decidueye + Delphox + Dodrio + Dragonite + Duraludon + Eldegoss + Espeon + Garchomp + Gardevoir + Gengar + Glaceon + Greedent + Greninja + Hoopa + Lucario + Machamp + Mamoswine + Mew + MrMime + Ninetales + Pikachu + Scizor + Scyther + Slowbro + Snorlax + Sylveon + Talonflame + Trevenant + Tsareena + Tyranitar + Venusaur + Wigglytuff + Zeraora
+glm.fit <- glm(win ~ Absol + Aegislash + Azumarill + Blastoise + Blissey + Buzzwole + Charizard + Cinderace + Cramorant + Crustle + Decidueye + Delphox + Dodrio + Dragonite + Duraludon + Eldegoss + Espeon + Garchomp + Gardevoir + Gengar + Glaceon + Greedent + Greninja + Hoopa + Lucario + Machamp + Mamoswine + Mew + MrMime + Ninetales + Pikachu + Scizor + Slowbro + Snorlax + Sylveon + Talonflame + Trevenant + Tsareena + Tyranitar + Venusaur + Wigglytuff
                , data = dp, family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+#### Over a single Pokémon
+
+```{r}
+glm.fit <- glm(win ~ Decidueye , data = dp, family=binomial(link='logit'))
 summary(glm.fit)
 
 ```
 
-## TREE - alberelli belli belli
+### A Balanced Team - Decision Tree
+
+Trees are more powerful, they can take in account interaction between variables and archive a sort of binary win-lose classification.
+
 ```{r}
 dp_group = dp[55:60]
 dp_group$win = dp$win
 ```
 
+The accuracy of tree predictions is evaluated by computing the MSE.
+A side dataset obtained by surveying some players is used as test set.
+
+```{r}
+new_data =read.csv("datasets/survey.test.set.csv")
+```
+
+#### Tree #0 - tree rbase
 
 ```{r}
 library(tree)
@@ -283,11 +353,13 @@ text(tree, pretty = 0)
 ```
 
 ```{r}
-yhat <- predict(tree, newdata = dp_group)
-plot(yhat, dp_group$win)
+yhat <- predict(tree, newdata = new_data)
+plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - dp_group$win)^2)
+mean((yhat - new_data$win)^2)
 ```
+
+#### Tree #1 - rpart
 
 ```{r, message=FALSE, warning=FALSE}
 library("rpart")
@@ -298,12 +370,13 @@ rpart.plot(tree1)
 ```
 
 ```{r}
-yhat <- predict(tree1, newdata = dp_group)
-plot(yhat, dp_group$win)
+yhat <- predict(tree1, newdata = new_data)
+plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - dp_group$win)^2)
+mean((yhat - new_data$win)^2)
 ```
 
+#### Tree #2 - partykit
 
 ```{r, message=FALSE, warning=FALSE}
 library("partykit")
@@ -312,10 +385,11 @@ tree2 <- ctree(win ~ ., data = dp_group, controls = ctree_control(testtype = "Te
 plot(tree2, cgp = gpar(fontsize = 2))
 ```
 
-
 ```{r}
-yhat <- predict(tree2, newdata = dp_group)
-plot(yhat, dp_group$win)
+yhat <- predict(tree2, newdata = new_data)
+plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - dp_group$win)^2)
+mean((yhat - new_data$win)^2)
 ```
+#### Tree - Consideration
+The best tree (#2) archive a MSE of 0.30, and not by chances it's the smallest tree. Smaller trees are less prone to overfit data, they return better predictions and they are way easier to interpret.
