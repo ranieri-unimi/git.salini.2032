@@ -3,21 +3,23 @@ output:
   html_document: default
   pdf_document: default
 ---
+
 # Laddering Unite
 
 ```{r}
+library(caret)
 library(scales)
 ```
 
-Pokémon Unite is an online video game. Matches consist in 10 minutes where two teams, each with 5 players, must archive the highest score to win. The player will partake in team-based battles: two teams of five Pokémons battle against each other.
+Pokémon Unite is an online video game. Matches consist in 10 minutes where two teams, each with 5 players, must archive the highest score to win.
 
-At the beginning of a match, players will be able to select which Pokémon they want to play. Pokémons have different base stats and are better in some aspects of the games than others. For example, someone have high defence which allows them to play as a shield to Pokémons which have low health points, but high attack.
+At the beginning of a match, players will be able to select which Pokémon they want to play. Pokémons have different base stats and are better in some aspects of the games than others. For example, someone have high defence, which allows them to play as a shield to Pokémons which have low health points, but high attack.
 
 While battling, the player is also able to level up once they defeat enough Pokémon. Once a Pokémon is defeated, opponent or wild, the player collects Balls which can then be dispensed to the opposing team's goal zones, and therefore collect points for the team. The player can heal by standing in their own team's goal zone or scoring points. The winner is decided by the higher final score of both teams once the battle timer is over.
 
 ## Datasets
 
-Two tike of data source are used.
+Two kind of data source are used.
 
 ### Pokémon Features
 
@@ -82,7 +84,7 @@ df$level = NULL
 
 #### Dimensionality Reduction
 
-The features of Pokémons are a bit redundant, let's reduce dimensions with PCA:
+The features of Pokémons seem to be a bit redundant: does the difference between `defense` and `sp_defense` really matter? Let's reduce dimensions with PCA:
 
 ```{r}
 res = princomp(df, cor=T)
@@ -103,19 +105,21 @@ pve=pr.var/sum(pr.var)
 plot(cumsum(pve), xlab="Principal Component", ylab="Cumulative Proportion of Variance Explained", ylim=c(0,1),type='b')
 ```
 
-The first two principal components are enough to explain the 80% of the variability among the Pokemon stats. Let's find out their composition:
+The first two principal components are enough to explain the 80% of the variability among the Pokemon stats. Let's find out their composition to give an interpretation to these new dimentions:
 
 ```{r}
 res$loading[,1:2]
 ```
 
-It seems that the first component measure the adverseness to be a core Special Attacker: very low `sp_attack` and `cooldown_reduc`.
-The second component seems to measure the defensiveness: low `attack`, `crit_rate` and `life_stea`l, against high `defense`, `sp_defence` and `hp`.
+It seems that the first component measure the **adverseness** to be a core Special Attacker: very low `sp_attack` and `cooldown_reduc`.
+
+The second component seems to measure the **defensiveness**: low `attack`, `crit_rate` and `life_stea`l, against high `defense`, `sp_defence` and `hp`.
 
 #### Clustering
-However also the number of possible playable Pokemon is quite high.
-K means is applied to delineate groups of interchangeable Pokémon.
-K means cannot be applied over the original point cloud because features are not comparable (distances between points are not euclidean, and an appropriate distance has not been found)
+
+However also the number of possible playable Pokemon is quite high. Let's apply K meansto delineate groups of interchangeable Pokémon.
+
+(K means cannot be applied over the original point cloud because features are not comparable, distances between points are not euclidean, and an appropriate distance has not been found)
 
 ```{r}
 biplot(res, cex=0.5)
@@ -339,8 +343,7 @@ dp_group = dp[55:60]
 dp_group$win = dp$win
 ```
 
-The accuracy of tree predictions is evaluated by computing the MSE.
-A side dataset obtained by surveying some players is used as test set.
+The accuracy of tree predictions is evaluated by computing the MSE. A side dataset obtained by surveying some players is used as test set.
 
 ```{r}
 new_data =read.csv("datasets/survey.test.set.csv")
@@ -360,7 +363,10 @@ text(tree, pretty = 0)
 yhat <- predict(tree, newdata = new_data)
 plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - new_data$win)^2)
+y_mse = mean((yhat - new_data$win)^2)
+y_acc = sum(round(yhat, digits=0)==new_data$win)/length(yhat)
+print(c(y_acc, y_mse))
+confusionMatrix(data=factor(round(yhat, digits=0)), reference = factor(new_data$win))
 ```
 
 #### Tree #1 - rpart
@@ -377,7 +383,10 @@ rpart.plot(tree1)
 yhat <- predict(tree1, newdata = new_data)
 plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - new_data$win)^2)
+y_mse = mean((yhat - new_data$win)^2)
+y_acc = sum(round(yhat, digits=0)==new_data$win)/length(yhat)
+print(c(y_acc, y_mse))
+confusionMatrix(data=factor(round(yhat, digits=0)), reference = factor(new_data$win))
 ```
 
 #### Tree #2 - partykit
@@ -393,8 +402,14 @@ plot(tree2, cgp = gpar(fontsize = 2))
 yhat <- predict(tree2, newdata = new_data)
 plot(yhat, new_data$win)
 abline(0, 1)
-mean((yhat - new_data$win)^2)
+y_mse = mean((yhat - new_data$win)^2)
+y_acc = sum(round(yhat, digits=0)==new_data$win)/length(yhat)
+print(c(y_acc, y_mse))
+confusionMatrix(data=factor(round(yhat, digits=0)), reference = factor(new_data$win))
 ```
 
 #### Consideration
+
 The best tree (#2) archive a MSE of 0.30, and not by chances it's the smallest tree. Smaller trees are less prone to overfit data, they return better predictions and they are way easier to interpret.
+
+However performance are globally poor, maybe due to lack of enough data that would help to build a more consistent model.
