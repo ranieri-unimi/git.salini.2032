@@ -117,9 +117,7 @@ The second component seems to measure the **defensiveness**: low `attack`, `crit
 
 #### Clustering
 
-However also the number of possible playable Pokemon is quite high. Let's apply K meansto delineate groups of interchangeable Pokémon.
-
-(K means cannot be applied over the original point cloud because features are not comparable, distances between points are not euclidean, and an appropriate distance has not been found)
+However also the number of possible playable Pokemon is quite high. Let's apply K means to delineate groups of interchangeable Pokémon.
 
 ```{r}
 biplot(res, cex=0.5)
@@ -212,7 +210,7 @@ ggdensity(dt, x = "score", fill = "lightgray", title = "score") +
   stat_overlay_normal_density(color = "red", linetype = "dashed")
 ```
 
-The score archived by each single player is not a reliable dependent variable, it's weirdly bi-modal due to game mechanics, and somewhat poissionian. Instead, the pretty binary win-lose outcome will be considered.
+The `score` archived by each single player may not be a reliable dependent variable, it's weirdly bi-modal due to game mechanics, and somewhat poissionian. Instead, the pretty binary win-lose outcome will be considered.
 
 ## Optimize Gameplay - Forward Selection and Logistic Regression
 
@@ -343,7 +341,7 @@ dp_group = dp[55:60]
 dp_group$win = dp$win
 ```
 
-The accuracy of tree predictions is evaluated by computing the MSE. A side dataset obtained by surveying some players is used as test set.
+The accuracy of tree predictions is evaluated by computing metrics like accuracy and MSE. A side dataset obtained by surveying some players is used as test set.
 
 ```{r}
 new_data =read.csv("datasets/survey.test.set.csv")
@@ -412,4 +410,4 @@ confusionMatrix(data=factor(round(yhat, digits=0)), reference = factor(new_data$
 
 The best tree (#2) archive a MSE of 0.30, and not by chances it's the smallest tree. Smaller trees are less prone to overfit data, they return better predictions and they are way easier to interpret.
 
-However performance are globally poor, maybe due to lack of enough data that would help to build a more consistent model.
+However performance are globally poor, highly due to lack of enough data that would help to build a more consistent model.
